@@ -272,7 +272,7 @@ if option == "Framegrabber": ###################################################
         frame_interval = st.number_input("Select frame grab interval (in seconds)", min_value=0.05, max_value=None,
                                          value=1.0, step=1.0)
         st.subheader("")
-        startGrabbing = st.button("Start framegrabbing!")
+        startGrabbing = st.checkbox("Start framegrabbing!")
         if startGrabbing:
 
             # Convert video to still frames
