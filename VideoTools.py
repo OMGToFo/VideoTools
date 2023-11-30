@@ -9,6 +9,9 @@ import moviepy.editor as mp
 import tempfile
 import speech_recognition as sr
 
+
+import os
+
 _="""
 option = st.sidebar.selectbox("Choose:",
                               ("Download YouTube", "Video to Audio","Videoframegrabber"),
@@ -57,6 +60,13 @@ div.stButton > button:active {
 	top:3px;
 }
 </style>""", unsafe_allow_html=True)
+
+
+
+
+if option != "Download YouTube":
+    uploaded_file = st.sidebar.file_uploader("Upload Video", type=['mp4', 'mov', 'avi', 'flv', 'wmv'])
+
 
 
 
@@ -111,13 +121,11 @@ if option == "Download YouTube": ###############################################
     YTDownloadStart = st.button("Start fetching Youtube-Video")
 
     if YTDownloadStart:
-
-        if url != "":
-            filename_video = download_video_from_url(url)
-            st.video(filename_video)
-            with open(filename_video, "rb") as f:
-                st.download_button("Download Video", data=f, file_name="YT_video.mp4")
-
+            if url != "":
+                filename_video = download_video_from_url(url)
+                st.video(filename_video)
+                with open(filename_video, "rb") as f:
+                    st.download_button("Download Video", data=f, file_name="YT_video.mp4")
 
 
 
@@ -150,7 +158,11 @@ if option == "Video to Audio": #################################################
 
 
     st.title("Video to Audio")
-    uploaded_file = st.file_uploader("Upload Video", type=['mp4', 'mov', 'avi', 'flv', 'wmv'])
+    #uploaded_file = st.file_uploader("Upload Video", type=['mp4', 'mov', 'avi', 'flv', 'wmv'])
+
+    if uploaded_file is None:
+        st.warning("<<<  Upload a videofile <<<")
+        st.sidebar.warning("^^^ Upload a video ^^^")
 
     if uploaded_file is not None:
 
@@ -181,7 +193,7 @@ if option == "Video to Audio": #################################################
 
         if audiotranskribieren:
 
-            with st.status('Transkribiere Audio...'):
+            with st.status('Transcribing...'):
                 transcript = transcribe_audio(audio_file, language)
             st.text_area('Transkript:', value=transcript, height=400)
 
@@ -258,7 +270,12 @@ if option == "Framegrabber": ###################################################
     st.title("Video to Stills Converter")
 
     # Add file upload functionality
-    uploaded_file = st.file_uploader("Upload a video file", type=["mp4", "avi"])
+    #uploaded_file = st.file_uploader("Upload a video file", type=["mp4", "avi"])
+
+    if uploaded_file is None:
+        st.warning("<<<  Upload a videofile <<<")
+        st.sidebar.warning("^^^ Upload a video ^^^")
+
 
     if uploaded_file is not None:
         # Save the uploaded video to a temporary file
@@ -303,7 +320,12 @@ if option == "Videoresizer": ###################################################
     st.title("MP4 Video Resizer")
 
     # Upload video
-    uploaded_file = st.file_uploader("Upload a video (MP4 format)", type=["mp4"])
+    #uploaded_file = st.file_uploader("Upload a video (MP4 format)", type=["mp4"])
+
+    if uploaded_file is None:
+        st.warning("<<<  Upload a videofile <<<")
+        st.sidebar.warning("^^^ Upload a video ^^^")
+
 
     if uploaded_file is not None:
         st.write("Uploaded video:")
@@ -312,7 +334,8 @@ if option == "Videoresizer": ###################################################
         st.write(uploaded_file.size)
 
         # Check the file extension
-        if video_filename.endswith(".mp4"):
+        #if video_filename.endswith(".mp4"):
+        if 1 == 1:
             # Display the uploaded video
             showUploadedVideo = st.checkbox("Show uploaded video")
             if showUploadedVideo:
@@ -329,6 +352,7 @@ if option == "Videoresizer": ###################################################
             output_path = "resized_video.mp4"
 
             if st.button("Resize!"):
+                st.subheader("")
                 if new_width <= 0:
                     st.error("Please enter a valid width.")
                 else:
@@ -338,6 +362,8 @@ if option == "Videoresizer": ###################################################
 
                     # Read the video
                     video = mp.VideoFileClip(video_filename)
+                    st.write("Original width: ",video.size[0], " Original height: ",video.size[1])
+
 
                     # Calculate the new height while preserving aspect ratio
                     if preserve_aspect_ratio:
@@ -358,8 +384,18 @@ if option == "Videoresizer": ###################################################
 
                     # Display the resized video
 
+
+
                     st.write("Resized video:")
-                    st.video(output_path)
+
+                    videowidth = max(new_width, 0.01)
+                    side = max((100 - new_width) / 2, 0.01)
+
+                    _, container, _ = st.columns([side, videowidth, side])
+                    container.video(data=output_path)
+
+
+                    #st.video(output_path)
 
                     # Allow the user to download the resized video
                     # st.download_button(label="Download Resized Video", data=output_path, file_name="Resizedvideo.mp4", key="download_button")
