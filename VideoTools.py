@@ -286,8 +286,8 @@ if option == "Framegrabber": ###################################################
         # User input for frame grab interval
         # frame_interval = st.slider("Select frame grab interval (in seconds)", 1, 10, 1)
 
-        frame_interval = st.number_input("Select frame grab interval (in seconds)", min_value=0.05, max_value=None,
-                                         value=1.0, step=1.0)
+        frame_interval = st.number_input("Select frame grab interval (in seconds)", min_value=0.01, max_value=None,
+                                         value=1.00, step=0.50)
         st.subheader("")
         startGrabbing = st.checkbox("Start framegrabbing!")
         if startGrabbing:
