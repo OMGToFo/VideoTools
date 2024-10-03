@@ -72,7 +72,7 @@ div.stButton > button:active {
 
 
 if option != "Download YouTube":
-    uploaded_file = st.sidebar.file_uploader("Upload Video", type=['mp4', 'mov', 'avi', 'flv', 'wmv'])
+    uploaded_file = st.sidebar.file_uploader("Upload Video", type=['mp4', 'mov', 'avi', 'flv', 'wmv','mpeg'])
 
 
 
