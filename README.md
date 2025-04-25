@@ -1,9 +1,9 @@
 # VideoTools
 SUper Simple VideoTools
 - Download YT Videos
-- Download YT Audio
-- Download Audio from Videos, transcribe Audio
+- Download YT Audio - does not work anymore :-(
+- Download Audio from Videos, transcribe Audio (kinda works)
 - Resize videos
-- Grab stills from videos
+- Grab stills from videos!
 
 - That's all for now
